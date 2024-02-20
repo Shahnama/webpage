@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffee Roulette</title>
+</head>
+<body>
+    <h1>Coffee Roulette Pairings</h1>
+    <div id="pairings"></div>
+
+    <script src="data.js"></script>
+    <script>
+        // Example JavaScript to insert pairings into the HTML, including images
+        const pairingsContainer = document.getElementById('pairings');
+
+        function fetchPairings() {
+            fetch('/api/pairings')
+                .then(response => response.json())
+                .then(data => displayPairings(data))
+                .catch(error => console.error('Error:', error));
+        }
+
+        function displayPairings(pairings) {
+            Object.entries(pairings).forEach(([month, pairs]) => {
+                const monthElement = document.createElement('h2');
+                monthElement.textContent = month;
+                pairingsContainer.appendChild(monthElement);
+
+                const listElement = document.createElement('ul');
+                pairs.forEach(pair => {
+                    const listItem = document.createElement('li');
+                    
+                    pair.pair.forEach(personId => {
+                        fetch(`/api/profile/${personId}`)
+                            .then(response => response.json())
+                            .then(person => {
+                                const nameLink = document.createElement('a');
+                                nameLink.href = `profile.html?id=${personId}`;
+                                nameLink.textContent = person.name;
+                                listItem.appendChild(nameLink);
+
+                                const image = document.createElement('img');
+                                image.src = person.image;
+                                image.alt = person.name;
+                                image.style.width = '50px'; // Set image size as needed
+                                listItem.appendChild(image);
+
+                                listItem.appendChild(document.createElement('br'));
+                            });
+                    });
+
+                    listElement.appendChild(listItem);
+                });
+                pairingsContainer.appendChild(listElement);
+            });
+        }
+
+        fetchPairings();
+    </script>
+</body>
+</html>

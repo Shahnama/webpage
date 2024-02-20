@@ -1,0 +1,41 @@
+/* style.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f5f5f5;
+}
+
+header {
+    background-color: #007bff;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+#month-selector {
+    margin: 20px;
+    text-align: center;
+}
+
+#pairs-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 10px;
+}
+
+.pair {
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin: 10px;
+    padding: 20px;
+    width: calc(50% - 20px);
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .pair {
+        width: calc(100% - 20px);
+    }
+}
